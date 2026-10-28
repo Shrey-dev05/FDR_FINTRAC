@@ -3,16 +3,90 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-main: #F6F5F0;
+    --text-primary: #202B38;
+    --border-color: #E2E5E8;
+  }
+
   body {
-    background-color: #F6F5F0;
-    color: #202B38;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Financial amounts: enforce tabular numerals for scannable column alignment */
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* GIGW 3.0: Visible keyboard focus indicator */
+  *:focus-visible {
+    outline: 2px solid #147D78 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Accessible Screen Reader Only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+
+/* GIGW 3.0 High Contrast Mode */
+html.high-contrast {
+  --bg-main: #000000 !important;
+  --text-primary: #FFFFFF !important;
+  --border-color: #FFFF00 !important;
+  filter: contrast(120%);
+}
+
+html.high-contrast body {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+html.high-contrast .bg-surface-pure,
+html.high-contrast .bg-surface-warm,
+html.high-contrast .bg-surface-secondary {
+  background-color: #121212 !important;
+  color: #FFFFFF !important;
+  border-color: #FFFF00 !important;
+}
+
+html.high-contrast .text-navy-900,
+html.high-contrast .text-navy-800,
+html.high-contrast .text-ink-primary,
+html.high-contrast .text-ink-secondary {
+  color: #FFFFFF !important;
+}
+
+html.high-contrast a,
+html.high-contrast button {
+  text-decoration: underline;
+}
+
+html.high-contrast *:focus-visible {
+  outline: 3px solid #FFFF00 !important;
+  outline-offset: 3px !important;
 }
 
 /* Custom refined scrollbars */

@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   ChevronRight,
   Landmark,
+  X,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -117,22 +118,46 @@ export const Sidebar: React.FC<{ isOpen: boolean; onCloseMobile?: () => void }> 
         isOpen ? 'translate-x-0' : '-translate-x-full'
       )}
     >
-      {/* Brand Header */}
-      <div className="h-16 px-5 flex items-center gap-3 border-b border-navy-800 bg-navy-900/90">
-        <div className="w-9 h-9 rounded-lg bg-teal-primary/20 border border-teal-primary/40 flex items-center justify-center text-teal-soft">
-          <Landmark className="w-5 h-5 text-teal-300" />
-        </div>
-        <div className="flex flex-col">
-          <span className="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
-            FINTRAC
-            <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-teal-primary/30 text-teal-300 border border-teal-primary/40">
-              Official
+      {/* Brand Header with GIGW 3.0 Dual Logos */}
+      <div className="h-18 px-4 flex items-center justify-between border-b border-navy-800 bg-navy-900/95">
+        <div className="flex items-center gap-2.5">
+          {/* Main Web Portal Logo (Second uploaded image: Teal Hexagonal FINTRAC) */}
+          <img
+            src="/fintrac-logo.png"
+            alt="FINTRAC Main Portal Logo"
+            className="w-10 h-10 object-contain rounded-lg p-0.5 bg-navy-800 border border-teal-primary/50 shadow-sm shrink-0"
+          />
+          
+          {/* AICTE Institutional Emblem (First uploaded image) */}
+          <img
+            src="/aicte-logo.png"
+            alt="AICTE Official Seal"
+            className="w-8 h-8 object-contain rounded bg-white p-0.5 border border-slate-300 shadow-sm shrink-0 hidden sm:block"
+          />
+
+          <div className="flex flex-col min-w-0">
+            <span className="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
+              FINTRAC
+              <span className="text-[9px] font-semibold uppercase px-1.5 py-0.2 rounded bg-teal-primary/30 text-teal-300 border border-teal-primary/40">
+                Official
+              </span>
             </span>
-          </span>
-          <span className="text-[11px] font-medium text-slate-400">
-            AICTE Security Deposit & FDR
-          </span>
+            <span className="text-[10px] font-medium text-slate-400 truncate">
+              AICTE Security Deposit & FDR
+            </span>
+          </div>
         </div>
+
+        {/* Mobile Close Button */}
+        {onCloseMobile && (
+          <button
+            onClick={onCloseMobile}
+            className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-navy-800 transition-colors"
+            aria-label="Close navigation sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Navigation Sections */}

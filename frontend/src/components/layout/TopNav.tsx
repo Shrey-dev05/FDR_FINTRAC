@@ -51,13 +51,24 @@ export const TopNav: React.FC<{ onToggleMobile: () => void }> = ({ onToggleMobil
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-surface-pure border-b border-surface-border px-4 lg:px-6 flex items-center justify-between shadow-xs">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={onToggleMobile}
-          className="lg:hidden p-2 rounded-lg text-ink-secondary hover:bg-surface-secondary"
+          className="lg:hidden p-2 rounded-lg text-ink-secondary hover:bg-surface-secondary touch-manipulation min-w-[40px] min-h-[40px] flex items-center justify-center"
+          aria-label="Open navigation menu"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-5 h-5 text-navy-900" />
         </button>
+
+        {/* Mobile Brand indicator with FINTRAC Logo */}
+        <div className="flex lg:hidden items-center gap-2">
+          <img
+            src="/fintrac-logo.png"
+            alt="FINTRAC Logo"
+            className="w-7 h-7 object-contain rounded bg-navy-900 p-0.5 border border-teal-primary/40"
+          />
+          <span className="font-bold text-sm text-navy-900 tracking-tight">FINTRAC</span>
+        </div>
 
         <div className="hidden sm:flex items-center gap-2 text-xs text-ink-secondary">
           <span className="font-semibold text-navy-900">AICTE Regulatory Workspace</span>

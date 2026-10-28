@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../lib/authContext';
 import { useNavigate } from 'react-router-dom';
+import { GIGWHeader } from '../../components/layout/GIGWHeader';
+import { GIGWFooter } from '../../components/layout/GIGWFooter';
 import {
-  Landmark,
   ShieldCheck,
   FileCheck2,
   Lock,
@@ -53,26 +54,43 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-surface-warm">
-      {/* Left Column: Institutional Architecture & Official Context */}
-      <div className="lg:w-1/2 bg-navy-900 text-white p-8 lg:p-14 flex flex-col justify-between relative overflow-hidden">
-        {/* Subtle geometric pattern overlay */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="w-full h-full border border-teal-soft/20 grid grid-cols-6 grid-rows-6"></div>
-        </div>
+    <div className="min-h-screen flex flex-col bg-surface-warm">
+      {/* GIGW 3.0 National Accessibility & Compliance Header */}
+      <GIGWHeader />
 
-        <div>
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-11 h-11 rounded-xl bg-teal-primary/30 border border-teal-primary/50 flex items-center justify-center text-teal-soft shadow-sm">
-              <Landmark className="w-6 h-6 text-teal-300" />
-            </div>
-            <div>
-              <span className="text-xl font-bold tracking-tight text-white block">FINTRAC</span>
-              <span className="text-xs text-slate-300 font-medium">
-                AICTE | Security Deposit & FDR Portal
-              </span>
-            </div>
+      <div className="flex-1 flex flex-col lg:flex-row">
+        {/* Left Column: Institutional Architecture & Official Context */}
+        <div className="lg:w-1/2 bg-navy-900 text-white p-6 sm:p-10 lg:p-14 flex flex-col justify-between relative overflow-hidden">
+          {/* Subtle geometric pattern overlay */}
+          <div className="absolute inset-0 opacity-5 pointer-events-none">
+            <div className="w-full h-full border border-teal-soft/20 grid grid-cols-6 grid-rows-6"></div>
           </div>
+
+          <div>
+            <div className="flex items-center gap-3.5 mb-8">
+              {/* Main Web Portal Logo (Second uploaded image: Teal Hexagonal FINTRAC) */}
+              <img
+                src="/fintrac-logo.png"
+                alt="FINTRAC Main Logo"
+                className="w-12 h-12 sm:w-14 sm:h-14 object-contain rounded-xl bg-navy-800 p-1 border border-teal-primary/50 shadow-md shrink-0"
+              />
+
+              {/* Official AICTE Crest (First uploaded image) */}
+              <img
+                src="/aicte-logo.png"
+                alt="AICTE Official Seal"
+                className="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-lg bg-white p-1 border border-slate-300 shadow-md shrink-0"
+              />
+
+              <div>
+                <span className="text-xl sm:text-2xl font-bold tracking-tight text-white block">
+                  FINTRAC
+                </span>
+                <span className="text-xs text-teal-300 font-medium block">
+                  AICTE Security Deposit & FDR Management Portal
+                </span>
+              </div>
+            </div>
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-primary/20 border border-teal-primary/30 text-teal-300 text-xs font-semibold uppercase tracking-wider mb-6">
             <ShieldCheck className="w-4 h-4" />
@@ -267,6 +285,10 @@ export const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>
+
+      {/* GIGW 3.0 National Footer */}
+      <GIGWFooter />
     </div>
   );
 };

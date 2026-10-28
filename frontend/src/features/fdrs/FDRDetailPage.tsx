@@ -382,7 +382,7 @@ export const FDRDetailPage: React.FC = () => {
       )}
 
       {/* Tabs */}
-      <div className="border-b border-surface-border flex items-center gap-6 text-xs font-semibold">
+      <div className="border-b border-surface-border flex items-center gap-4 sm:gap-6 text-xs font-semibold overflow-x-auto whitespace-nowrap pb-1">
         <button
           onClick={() => setActiveTab('overview')}
           className={`pb-2.5 transition-colors border-b-2 flex items-center gap-1.5 ${
