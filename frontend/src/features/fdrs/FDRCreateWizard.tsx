@@ -255,8 +255,22 @@ export const FDRCreateWizard: React.FC = () => {
         </p>
       </div>
 
-      {/* Step Indicator */}
-      <div className="grid grid-cols-5 gap-2 pb-4">
+      {/* Mobile Step Indicator */}
+      <div className="sm:hidden space-y-2 pb-2">
+        <div className="flex items-center justify-between text-xs font-semibold">
+          <span className="text-teal-primary font-mono">Step {currentStep} of {steps.length}</span>
+          <span className="text-navy-900">{steps[currentStep - 1].title}</span>
+        </div>
+        <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+          <div
+            className="bg-teal-primary h-full transition-all duration-300"
+            style={{ width: `${(currentStep / steps.length) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Desktop Step Indicator */}
+      <div className="hidden sm:grid grid-cols-5 gap-2 pb-4">
         {steps.map((st) => (
           <div key={st.number} className="flex flex-col gap-1.5">
             <div

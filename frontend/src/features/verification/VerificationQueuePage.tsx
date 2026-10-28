@@ -109,84 +109,129 @@ export const VerificationQueuePage: React.FC = () => {
             No instruments currently in the verification queue. All submitted FDRs have been scrutinized.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-surface-secondary/70 border-b border-surface-border text-ink-secondary font-semibold uppercase tracking-wider text-[11px]">
-                  <th className="py-3 px-4">FDR Reference</th>
-                  <th className="py-3 px-4">Institution</th>
-                  <th className="py-3 px-4">Issuing Bank</th>
-                  <th className="py-3 px-4 text-right">Amount</th>
-                  <th className="py-3 px-4">Submitted Date</th>
-                  <th className="py-3 px-4">Observations</th>
-                  <th className="py-3 px-4">Current Status</th>
-                  <th className="py-3 px-4 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-surface-border">
-                {filteredQueue.map((item) => (
-                  <tr
-                    key={item.id}
-                    onClick={() => navigate(`/verification/${item.id}`)}
-                    className="hover:bg-surface-secondary/40 transition-colors group cursor-pointer"
-                  >
-                    <td className="py-3.5 px-4 font-mono font-bold text-navy-900">
-                      {item.fdr_number}
-                    </td>
+          <>
+            {/* Mobile Cards View (< md) */}
+            <div className="md:hidden divide-y divide-surface-border">
+              {filteredQueue.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => navigate(`/verification/${item.id}`)}
+                  className="p-4 space-y-3 hover:bg-surface-secondary/40 active:bg-surface-secondary/60 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="font-mono font-bold text-sm text-navy-900">{item.fdr_number}</div>
+                      <div className="text-xs text-ink-secondary mt-0.5">{item.bank_name}</div>
+                    </div>
+                    <StatusBadge status={item.status} size="sm" />
+                  </div>
 
-                    <td className="py-3.5 px-4">
-                      <div className="font-semibold text-navy-900 truncate max-w-[200px]">
-                        {item.institution_name}
-                      </div>
-                      <div className="text-[10px] text-ink-secondary font-mono">
-                        {item.institution_code}
-                      </div>
-                    </td>
+                  <div className="text-xs text-ink-primary font-medium">
+                    <span>{item.institution_name}</span>{' '}
+                    <span className="font-mono text-[10px] text-slate-400">({item.institution_code})</span>
+                  </div>
 
-                    <td className="py-3.5 px-4 font-medium text-navy-800">
-                      {item.bank_name}
-                    </td>
+                  <div className="flex items-end justify-between pt-1 border-t border-surface-border/60">
+                    <div>
+                      <span className="text-[10px] uppercase font-semibold text-ink-secondary block">Deposit</span>
+                      <span className="text-base font-bold tabular-nums text-navy-900">{formatINR(item.amount)}</span>
+                    </div>
 
-                    <td className="py-3.5 px-4 text-right font-bold tabular-nums text-navy-900">
-                      {formatINR(item.amount)}
-                    </td>
-
-                    <td className="py-3.5 px-4 text-ink-secondary font-mono text-[11px]">
-                      {formatDateTime(item.submitted_at)}
-                    </td>
-
-                    <td className="py-3.5 px-4">
+                    <div className="text-right">
                       {item.open_observations > 0 ? (
                         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded-full">
                           <AlertTriangle className="w-3 h-3" />
-                          {item.open_observations} Open Issue(s)
+                          {item.open_observations} Issue(s)
                         </span>
                       ) : (
-                        <span className="text-[11px] text-slate-400">None flagged</span>
+                        <span className="text-[11px] text-slate-400">No issues flagged</span>
                       )}
-                    </td>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-                    <td className="py-3.5 px-4">
-                      <StatusBadge status={item.status} />
-                    </td>
-
-                    <td className="py-3.5 px-4 text-center">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/verification/${item.id}`);
-                        }}
-                        className="px-3 py-1 bg-teal-primary hover:bg-teal-hover text-white rounded-lg text-xs font-semibold flex items-center gap-1 mx-auto transition-colors shadow-xs"
-                      >
-                        <span>Open Workspace</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </button>
-                    </td>
+            {/* Desktop Table (>= md) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-surface-secondary/70 border-b border-surface-border text-ink-secondary font-semibold uppercase tracking-wider text-[11px]">
+                    <th className="py-3 px-4">FDR Reference</th>
+                    <th className="py-3 px-4">Institution</th>
+                    <th className="py-3 px-4">Issuing Bank</th>
+                    <th className="py-3 px-4 text-right">Amount</th>
+                    <th className="py-3 px-4">Submitted Date</th>
+                    <th className="py-3 px-4">Observations</th>
+                    <th className="py-3 px-4">Current Status</th>
+                    <th className="py-3 px-4 text-center">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-surface-border">
+                  {filteredQueue.map((item) => (
+                    <tr
+                      key={item.id}
+                      onClick={() => navigate(`/verification/${item.id}`)}
+                      className="hover:bg-surface-secondary/40 transition-colors group cursor-pointer"
+                    >
+                      <td className="py-3.5 px-4 font-mono font-bold text-navy-900">
+                        {item.fdr_number}
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <div className="font-semibold text-navy-900 truncate max-w-[200px]">
+                          {item.institution_name}
+                        </div>
+                        <div className="text-[10px] text-ink-secondary font-mono">
+                          {item.institution_code}
+                        </div>
+                      </td>
+
+                      <td className="py-3.5 px-4 font-medium text-navy-800">
+                        {item.bank_name}
+                      </td>
+
+                      <td className="py-3.5 px-4 text-right font-bold tabular-nums text-navy-900">
+                        {formatINR(item.amount)}
+                      </td>
+
+                      <td className="py-3.5 px-4 text-ink-secondary font-mono text-[11px]">
+                        {formatDateTime(item.submitted_at)}
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        {item.open_observations > 0 ? (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded-full">
+                            <AlertTriangle className="w-3 h-3" />
+                            {item.open_observations} Open Issue(s)
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-slate-400">None flagged</span>
+                        )}
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <StatusBadge status={item.status} />
+                      </td>
+
+                      <td className="py-3.5 px-4 text-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/verification/${item.id}`);
+                          }}
+                          className="px-3 py-1 bg-teal-primary hover:bg-teal-hover text-white rounded-lg text-xs font-semibold flex items-center gap-1 mx-auto transition-colors shadow-xs"
+                        >
+                          <span>Open Workspace</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -50,27 +50,27 @@ export const TopNav: React.FC<{ onToggleMobile: () => void }> = ({ onToggleMobil
     : 'Dashboard';
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-surface-pure border-b border-surface-border px-4 lg:px-6 flex items-center justify-between shadow-xs">
+    <header className="sticky top-0 z-30 h-16 bg-surface-pure border-b border-surface-border px-3 sm:px-4 lg:px-6 flex items-center justify-between shadow-xs">
       <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={onToggleMobile}
-          className="lg:hidden p-2 rounded-lg text-ink-secondary hover:bg-surface-secondary touch-manipulation min-w-[40px] min-h-[40px] flex items-center justify-center"
-          aria-label="Open navigation menu"
+          className="lg:hidden min-h-[44px] min-w-[44px] p-2 rounded-lg text-ink-secondary hover:text-navy-900 hover:bg-surface-secondary active:scale-95 flex items-center justify-center transition-all"
+          aria-label="Open Navigation Drawer"
         >
-          <Menu className="w-5 h-5 text-navy-900" />
+          <Menu className="w-5 h-5" />
         </button>
 
-        {/* Mobile Brand indicator with FINTRAC Logo */}
-        <div className="flex lg:hidden items-center gap-2">
+        {/* Mobile Brand Logo */}
+        <div className="flex items-center gap-2 lg:hidden">
           <img
-            src="/fintrac-logo.png"
+            src="/logo.png"
             alt="FINTRAC Logo"
-            className="w-7 h-7 object-contain rounded bg-navy-900 p-0.5 border border-teal-primary/40"
+            className="w-7 h-7 object-contain rounded shrink-0 shadow-xs"
           />
           <span className="font-bold text-sm text-navy-900 tracking-tight">FINTRAC</span>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 text-xs text-ink-secondary">
+        <div className="hidden lg:flex items-center gap-2 text-xs text-ink-secondary">
           <span className="font-semibold text-navy-900">AICTE Regulatory Workspace</span>
           <span>/</span>
           <span className="text-ink-primary font-medium capitalize">{currentTitle}</span>
@@ -83,23 +83,23 @@ export const TopNav: React.FC<{ onToggleMobile: () => void }> = ({ onToggleMobil
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         {/* Role & Workspace Switcher */}
         <div className="relative">
           <button
             onClick={() => setRoleMenuOpen(!roleMenuOpen)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-surface-border bg-surface-secondary hover:bg-slate-200 text-xs font-semibold text-navy-900 transition-colors shadow-xs"
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg border border-surface-border bg-surface-secondary hover:bg-slate-200 text-xs font-semibold text-navy-900 transition-colors shadow-xs min-h-[38px]"
           >
-            <UserCheck className="w-3.5 h-3.5 text-teal-primary" />
+            <UserCheck className="w-3.5 h-3.5 text-teal-primary shrink-0" />
             <span className="hidden md:inline text-slate-500 font-normal">Active Role:</span>
-            <span className="font-bold text-navy-900">
+            <span className="font-bold text-navy-900 max-w-[100px] sm:max-w-none truncate">
               {user?.role.replace(/_/g, ' ')}
             </span>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           </button>
 
           {roleMenuOpen && (
-            <div className="absolute right-0 mt-2 w-72 bg-surface-pure rounded-xl shadow-panel border border-surface-border py-2 z-50 animate-fadeIn">
+            <div className="absolute right-0 mt-2 w-72 max-w-[calc(100vw-1.5rem)] bg-surface-pure rounded-xl shadow-panel border border-surface-border py-2 z-50 animate-fadeIn">
               <div className="px-3 py-1.5 border-b border-surface-border text-[10px] font-bold uppercase tracking-wider text-ink-secondary">
                 Switch Operational Perspective
               </div>
@@ -136,8 +136,9 @@ export const TopNav: React.FC<{ onToggleMobile: () => void }> = ({ onToggleMobil
         {/* Notifications Icon with Badge */}
         <button
           onClick={() => navigate('/notifications')}
-          className="relative p-2 rounded-lg text-ink-secondary hover:text-navy-900 hover:bg-surface-secondary transition-colors"
+          className="relative min-h-[40px] min-w-[40px] p-2 rounded-lg text-ink-secondary hover:text-navy-900 hover:bg-surface-secondary flex items-center justify-center transition-colors"
           title="Regulatory Notifications"
+          aria-label="View notifications"
         >
           <Bell className="w-5 h-5" />
           {unreadCount > 0 && (

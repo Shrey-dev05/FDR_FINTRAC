@@ -280,30 +280,18 @@ export const FDRListPage: React.FC = () => {
             </button>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-surface-secondary/70 border-b border-surface-border text-ink-secondary font-semibold uppercase tracking-wider text-[11px]">
-                  <th className="py-3 px-4">FDR Reference</th>
-                  {!isInstitution && <th className="py-3 px-4">Institution</th>}
-                  <th className="py-3 px-4">Issuing Bank</th>
-                  <th className="py-3 px-4 text-right">Deposit Amount</th>
-                  <th className="py-3 px-4">Issue Date</th>
-                  <th className="py-3 px-4">Maturity Date</th>
-                  <th className="py-3 px-4">Scrutiny Status</th>
-                  <th className="py-3 px-4">Lifecycle State</th>
-                  <th className="py-3 px-4 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-surface-border">
-                {items.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="hover:bg-surface-secondary/40 transition-colors group cursor-pointer"
-                    onClick={() => navigate(`/fdrs/${row.id}`)}
-                  >
-                    <td className="py-3.5 px-4 font-mono font-medium text-navy-900">
-                      <div className="flex items-center gap-1.5">
+          <>
+            {/* Mobile Cards List (< md) */}
+            <div className="md:hidden divide-y divide-surface-border">
+              {items.map((row) => (
+                <div
+                  key={row.id}
+                  onClick={() => navigate(`/fdrs/${row.id}`)}
+                  className="p-4 space-y-3 hover:bg-surface-secondary/40 active:bg-surface-secondary/60 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-1.5 font-mono font-bold text-sm text-navy-900">
                         <span>{row.fdr_number}</span>
                         <button
                           type="button"
@@ -311,7 +299,7 @@ export const FDRListPage: React.FC = () => {
                             e.stopPropagation();
                             copyToClipboard(row.fdr_number, row.id);
                           }}
-                          className="text-slate-400 hover:text-navy-900 p-0.5 rounded"
+                          className="text-slate-400 hover:text-navy-900 p-1 rounded"
                           title="Copy reference"
                         >
                           {copiedId === row.id ? (
@@ -321,62 +309,135 @@ export const FDRListPage: React.FC = () => {
                           )}
                         </button>
                       </div>
-                    </td>
+                      <div className="text-xs text-ink-secondary mt-0.5">
+                        {row.bank_name_snapshot}
+                      </div>
+                    </div>
 
-                    {!isInstitution && (
-                      <td className="py-3.5 px-4">
-                        <div className="font-semibold text-navy-900 truncate max-w-[200px]">
-                          {row.institution_name}
-                        </div>
-                        <div className="text-[10px] text-ink-secondary font-mono">
-                          {row.institution_code}
+                    <StatusBadge status={row.status} size="sm" />
+                  </div>
+
+                  {!isInstitution && (
+                    <div className="text-xs text-ink-primary font-medium">
+                      <span>{row.institution_name}</span>{' '}
+                      <span className="font-mono text-[10px] text-slate-400">({row.institution_code})</span>
+                    </div>
+                  )}
+
+                  <div className="flex items-end justify-between pt-1 border-t border-surface-border/60">
+                    <div>
+                      <span className="text-[10px] uppercase font-semibold text-ink-secondary block">Amount</span>
+                      <span className="text-base font-bold tabular-nums text-navy-900">{formatINR(row.amount)}</span>
+                    </div>
+
+                    <div className="text-right text-[11px] text-ink-secondary">
+                      <div>Matures: <strong className="text-navy-900 font-medium">{formatDate(row.maturity_date)}</strong></div>
+                      <div className="mt-0.5"><StatusBadge status={row.verification_status} size="sm" /></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Data Table (>= md) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-surface-secondary/70 border-b border-surface-border text-ink-secondary font-semibold uppercase tracking-wider text-[11px]">
+                    <th className="py-3 px-4">FDR Reference</th>
+                    {!isInstitution && <th className="py-3 px-4">Institution</th>}
+                    <th className="py-3 px-4">Issuing Bank</th>
+                    <th className="py-3 px-4 text-right">Deposit Amount</th>
+                    <th className="py-3 px-4">Issue Date</th>
+                    <th className="py-3 px-4">Maturity Date</th>
+                    <th className="py-3 px-4">Scrutiny Status</th>
+                    <th className="py-3 px-4">Lifecycle State</th>
+                    <th className="py-3 px-4 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-surface-border">
+                  {items.map((row) => (
+                    <tr
+                      key={row.id}
+                      className="hover:bg-surface-secondary/40 transition-colors group cursor-pointer"
+                      onClick={() => navigate(`/fdrs/${row.id}`)}
+                    >
+                      <td className="py-3.5 px-4 font-mono font-medium text-navy-900">
+                        <div className="flex items-center gap-1.5">
+                          <span>{row.fdr_number}</span>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              copyToClipboard(row.fdr_number, row.id);
+                            }}
+                            className="text-slate-400 hover:text-navy-900 p-0.5 rounded"
+                            title="Copy reference"
+                          >
+                            {copiedId === row.id ? (
+                              <Check className="w-3.5 h-3.5 text-teal-primary" />
+                            ) : (
+                              <Copy className="w-3.5 h-3.5" />
+                            )}
+                          </button>
                         </div>
                       </td>
-                    )}
 
-                    <td className="py-3.5 px-4 font-medium text-navy-800">
-                      {row.bank_name_snapshot}
-                    </td>
+                      {!isInstitution && (
+                        <td className="py-3.5 px-4">
+                          <div className="font-semibold text-navy-900 truncate max-w-[200px]">
+                            {row.institution_name}
+                          </div>
+                          <div className="text-[10px] text-ink-secondary font-mono">
+                            {row.institution_code}
+                          </div>
+                        </td>
+                      )}
 
-                    <td className="py-3.5 px-4 text-right font-bold tabular-nums text-navy-900">
-                      {formatINR(row.amount)}
-                    </td>
+                      <td className="py-3.5 px-4 font-medium text-navy-800">
+                        {row.bank_name_snapshot}
+                      </td>
 
-                    <td className="py-3.5 px-4 text-ink-secondary">
-                      {formatDate(row.issue_date)}
-                    </td>
+                      <td className="py-3.5 px-4 text-right font-bold tabular-nums text-navy-900">
+                        {formatINR(row.amount)}
+                      </td>
 
-                    <td className="py-3.5 px-4">
-                      <span className="font-medium text-navy-900">
-                        {formatDate(row.maturity_date)}
-                      </span>
-                    </td>
+                      <td className="py-3.5 px-4 text-ink-secondary">
+                        {formatDate(row.issue_date)}
+                      </td>
 
-                    <td className="py-3.5 px-4">
-                      <StatusBadge status={row.verification_status} />
-                    </td>
+                      <td className="py-3.5 px-4">
+                        <span className="font-medium text-navy-900">
+                          {formatDate(row.maturity_date)}
+                        </span>
+                      </td>
 
-                    <td className="py-3.5 px-4">
-                      <StatusBadge status={row.status} />
-                    </td>
+                      <td className="py-3.5 px-4">
+                        <StatusBadge status={row.verification_status} />
+                      </td>
 
-                    <td className="py-3.5 px-4 text-center">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/fdrs/${row.id}`);
-                        }}
-                        className="p-1.5 rounded-lg text-ink-secondary hover:text-teal-primary hover:bg-surface-secondary transition-colors"
-                        title="View Full Details"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      <td className="py-3.5 px-4">
+                        <StatusBadge status={row.status} />
+                      </td>
+
+                      <td className="py-3.5 px-4 text-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/fdrs/${row.id}`);
+                          }}
+                          className="p-1.5 rounded-lg text-ink-secondary hover:text-teal-primary hover:bg-surface-secondary transition-colors"
+                          title="View Full Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         {/* Pagination Bar */}

@@ -262,7 +262,7 @@ export const FDRDetailPage: React.FC = () => {
           </div>
 
           {/* Contextual Action Buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {isInstitution && (fdr.status === 'Returned for Clarification' || fdr.status === 'Discrepancy Flagged') && (
               <button
                 onClick={() => setClarificationModalOpen(true)}
@@ -382,7 +382,7 @@ export const FDRDetailPage: React.FC = () => {
       )}
 
       {/* Tabs */}
-      <div className="border-b border-surface-border flex items-center gap-4 sm:gap-6 text-xs font-semibold overflow-x-auto whitespace-nowrap pb-1">
+      <div className="border-b border-surface-border flex items-center gap-4 sm:gap-6 text-xs font-semibold overflow-x-auto whitespace-nowrap scrollbar-none pb-1">
         <button
           onClick={() => setActiveTab('overview')}
           className={`pb-2.5 transition-colors border-b-2 flex items-center gap-1.5 ${
