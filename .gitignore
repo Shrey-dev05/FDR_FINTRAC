@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+ENV/
+
+# Python cache & testing
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+frontend/dist/
+dist/
+build/
+
+# Environment files & Local storage
+.env
+backend/.env
+backend/storage/uploads/*
+!backend/storage/uploads/.gitkeep
+backend/fdr_portal.db
+
+# OS Files
+.DS_Store
+Thumbs.db

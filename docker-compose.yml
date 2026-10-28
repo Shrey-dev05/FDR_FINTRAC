@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: fdr_postgres
+    environment:
+      POSTGRES_DB: fdr_portal
+      POSTGRES_USER: aicte_admin
+      POSTGRES_PASSWORD: aicte_secure_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aicte_admin -d fdr_portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fdr_backend
+    environment:
+      DATABASE_URL: postgresql://aicte_admin:aicte_secure_password_2026@db:5432/fdr_portal
+      SECRET_KEY: super-secret-aicte-portal-key-26265-prototype-2026
+      APP_ENV: production
+      DEBUG: "False"
+      BANK_VERIFIER_MODE: DEMO
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/storage:/app/storage
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fdr_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
